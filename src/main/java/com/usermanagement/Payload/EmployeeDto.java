@@ -10,7 +10,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDto {
+public class EmployeeDto {
+	
+	private Integer id;
 	
 	private String name;
 	

@@ -15,25 +15,26 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.usermanagement.Payload.UserDto;
+import com.usermanagement.Payload.EmployeeDto;
 import com.usermanagement.config.BindJson;
 import com.usermanagement.config.JsonLoaderConfig;
 
 import lombok.SneakyThrows;
+
 
 @SpringBootTest(classes = {UsermanagementApplication.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class UserManagementTests extends JsonLoaderConfig {
 
-	private @BindJson("user-data.json") UserDto userData;
+	private @BindJson("user-data.json") EmployeeDto userData;
 
 	@Test
 	@Order(0)
 	@SneakyThrows
 	void createUserTest() {
-		ResponseEntity<UserDto> userEntity = restTemplate.exchange(baseUrl + "/submit", HttpMethod.POST,
-				new HttpEntity<>(userData, requestHeaders), UserDto.class);
+		ResponseEntity<EmployeeDto> userEntity = restTemplate.exchange(baseUrl + "/submit", HttpMethod.POST,
+				new HttpEntity<>(userData, requestHeaders), EmployeeDto.class);
 		assertEquals(HttpStatus.CREATED, userEntity.getStatusCode());
 	}
 
@@ -41,8 +42,8 @@ public class UserManagementTests extends JsonLoaderConfig {
 	@Order(1)
 	@SneakyThrows
 	void getUserTest() {
-		ResponseEntity<UserDto> userEntity = restTemplate.exchange(baseUrl + "/view/1", HttpMethod.GET,
-				new HttpEntity<>(requestHeaders), UserDto.class);
+		ResponseEntity<EmployeeDto> userEntity = restTemplate.exchange(baseUrl + "/view/1", HttpMethod.GET,
+				new HttpEntity<>(requestHeaders), EmployeeDto.class);
 		assertEquals(HttpStatus.OK, userEntity.getStatusCode());
 		userData = userEntity.getBody();
 	}
@@ -52,8 +53,8 @@ public class UserManagementTests extends JsonLoaderConfig {
 	@SneakyThrows
 	void updateUserTest() {
 		userData.setName("mahesh");
-		ResponseEntity<UserDto> userEntity2 = restTemplate.exchange(baseUrl + "/update/1", HttpMethod.PUT,
-				new HttpEntity<>(userData, requestHeaders), UserDto.class);
+		ResponseEntity<EmployeeDto> userEntity2 = restTemplate.exchange(baseUrl + "/update/1", HttpMethod.PUT,
+				new HttpEntity<>(userData, requestHeaders), EmployeeDto.class);
 		assertEquals(HttpStatus.OK, userEntity2.getStatusCode());
 	}
 
